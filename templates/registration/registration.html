@@ -1,0 +1,28 @@
+{% extends 'basics/main.html' %}
+{% block content %}
+    <form class="form-signin" style="padding-top: 100px" method="post">
+        {% csrf_token %}
+        <h1 class="h3 mb-3 font-weight-normal">Please sing up</h1>
+
+        <div class=" {% if form.username.errors %}has-error{% endif %}">
+            <label class="sr-only" for="id_username">{{ form.username.label }}</label>
+            <input name="username" type="text" id="id_username" class="form-control" placeholder="Username">
+                {% if form.username.errors %}<p class="field_error">{{ form.username.errors|striptags }}</p>{% endif %}
+        </div>
+        <div class=" {% if form.password1.errors %}has-error{% endif %}">
+            <label class="sr-only" for="id_password1">{{ form.password1.label }}</label>
+            <input name="password1" type="password" id="id_password1" class="form-control" placeholder="Password">
+                {% if form.password1.errors %}<p class="field_error">{{ form.password1.errors|striptags }}</p>{% endif %}
+        </div>
+        <div class=" {% if form.password2.errors %}has-error{% endif %}">
+            <label class="sr-only" for="id_password2">{{ form.password2.label }}</label>
+            <input name="password2" type="password" id="id_password2" class="form-control" placeholder="Confirm password">
+                {% if form.password2.errors %}<p class="field_error">{{ form.password2.errors|striptags }}</p>{% endif %}
+        </div>
+        <br>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign un</button>
+        <a class="btn btn-lg btn-warning btn-block" href="{% url 'login' %}">Back</a>
+        <br>
+        <p class="mt-5 mb-3 text-muted">© 2018/19 Secret Santa</p>
+    </form>
+{% endblock %}

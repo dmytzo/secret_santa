@@ -1,0 +1,78 @@
+{% extends 'basics/main.html' %}
+{% block content %}
+    <div class="form-signin" style="padding-top: 100px">
+        <h1 class="h3 mb-3 font-weight-normal">Secret Santa game: {{ game.name }}</h1>
+        <h1 class="h3 mb-3 font-weight-normal">Secret Santa budget: {{ game.budget }}</h1>
+        <h2 class="h3 mb-3 font-weight-normal">Secret code: {{ game.code }}</h2>
+        <br>
+        <h2 class="h3 mb-3 font-weight-normal">Secret rules: </h2>
+        {% for rule in game.game_rules.all %}
+            {{ rule }}
+        {% endfor %}
+        <br>
+        <h2 class="h3 mb-3 font-weight-normal">Secret players:</h2>
+
+        <hr>
+        <ol class="list-group">
+            {% for player in game.user_game.all %}
+                <li {% if player == user_game.gift_to_player %}style="background-color: chartreuse"{% endif %} class="list-group-item">
+                    {{ player.name }}
+                    {% if player.user == user %}
+                        <a href="{% url 'join-game' game.id %}"> edit </a>{% endif %}
+                    {% if game.user_add == user %}
+                        <br>
+                        <a href="{% url 'delete_game' player.id %}">delete</a>
+                    {% endif %}
+                    {% if player == user_game.gift_to_player %}
+                        <br>
+                        <b>wish</b>:<br>{{ player.wish }}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+
+        <br>
+        {% if not user_game.gift_to_player %}
+            <a class="btn btn-lg btn-dark btn-block {% if not game.ready %} disabled{% endif %}" href="{% url 'generate-game' game.id %}" style="color: white">*** HoHoHo ***</a>
+        {% endif %}
+        {% if game.user_add == user %}
+            {% if not game.ready %}
+                <a href="{% url 'start-game' game.id %}" style="color: white" class="btn btn-lg btn-success btn-block">!!START GAME!!!</a>
+            {% endif %}
+            <a id="open-modal" style="color: white" class="btn btn-lg btn-primary btn-block">Add rule</a>
+            <a class="btn btn-lg btn-danger btn-block" href="{% url 'delete_game' user_game.id %}">Delete game</a>
+        {% endif %}
+        <a class="btn btn-lg btn-warning btn-block" href="{% url 'main' %}">Back</a>
+    </div>
+
+        <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="exampleModalLabel" style="text-align: center">New rule</h1>
+                <p>(Select players which can not be together)</p>
+            </div>
+            <div style="display: block" class="modal-footer">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="{% if form.player1.errors %}has-error{% endif %}">
+                        <label for="id_player1">{{ form.player1.label }}</label>
+                        {{ form.player1 }}
+                            {% if form.player1.errors %}<p class="field_error">{{ form.player1.errors|striptags }}</p>{% endif %}
+                    </div>
+                    <br>
+                    <div class="{% if form.player2.errors %}has-error{% endif %}">
+                        <label for="id_player2">{{ form.player2.label }}</label>
+                        {{ form.player2 }}
+                            {% if form.player2.errors %}<p class="field_error">{{ form.player2.errors|striptags }}</p>{% endif %}
+                    </div>
+                    <br>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
+                    <div id="close-modal" class="btn btn-lg btn-warning btn-block">Close</div>
+                    <br>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

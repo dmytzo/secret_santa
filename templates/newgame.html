@@ -1,0 +1,28 @@
+{% extends 'basics/main.html' %}
+{% block content %}
+    <form class="form-signin" style="padding-top: 250px" method="post">
+        {% csrf_token %}
+        <h1 class="h3 mb-3 font-weight-normal">Create new game</h1>
+
+        <div class=" {% if form.name.errors %}has-error{% endif %}">
+            <label class="sr-only" for="id_name">{{ form.name.label }}</label>
+            <input required name="name" type="text" id="id_name" class="form-control" placeholder="Game name">
+                {% if form.name.errors %}<p class="field_error">{{ form.name.errors|striptags }}</p>{% endif %}
+        </div>
+        <br>
+        <div class=" {% if form.budget.errors %}has-error{% endif %}">
+            <label class="sr-only" for="id_name">{{ form.budget.label }}</label>
+            <input required name="budget" type="text" id="id_budget" class="form-control" placeholder="Game budget">
+                {% if form.budget.errors %}<p class="field_error">{{ form.budget.errors|striptags }}</p>{% endif %}
+        </div>
+        <br>
+        <div>
+            <input required name="your_name" type="text" id="id_your_name" class="form-control" placeholder="Your name">
+            <br>
+            <textarea required name="wish" type="text" id="id_wish" class="form-control" placeholder="Your wish"></textarea>
+        </div>
+        <br>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+        <a class="btn btn-lg btn-warning btn-block" href="{% url 'main' %}">Back</a>
+    </form>
+{% endblock %}

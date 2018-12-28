@@ -1,0 +1,38 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Secret Santa</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-grid.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-reboot.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block header %}{% endblock %}
+</head>
+<body class="text-center">
+{% block content %}{% endblock %}
+    <script src="{% static "js/bootstrap.js" %}"></script>
+    <script src="{% static "js/bootstrap.bundle.js" %}"></script>
+    <script src="{% static "js/jquery-3.3.1.min.js" %}"></script>
+    <script src="{% static "js/jquery.popupoverlay.js" %}"></script>
+    <script>
+        $(document).ready(() => {
+            const author_popup = $('#exampleModal').popup({scrolllock: true, blur: false, escape: false});
+
+            $('#close-modal').click(() => {
+                author_popup.popup('hide')
+            });
+
+            $('#open-modal').click(() => {
+                author_popup.popup('show')
+            });
+
+            {% if form.code.errors or form.player2.errors %}
+                author_popup.popup('show');
+            {% endif %}
+        });
+    </script>
+    {% block script %}{% endblock %}
+</body>
+</html>

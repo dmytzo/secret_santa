@@ -1,0 +1,12 @@
+{% extends 'basics/main.html' %}
+{% block content %}
+    <form class="form-signin" style="padding-top: 150px" method="post">
+
+        {% csrf_token %}
+        <h1 class="h3 mb-3 font-weight-normal">Join Secret Santa game</h1>
+        {{ form.as_p }}
+        <br>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
+        <a class="btn btn-lg btn-warning btn-block" href="{% url 'main' %}">Back</a>
+    </form>
+{% endblock %}

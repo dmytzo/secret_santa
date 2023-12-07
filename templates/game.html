@@ -1,16 +1,16 @@
 {% extends 'basics/main.html' %}
 {% block content %}
     <div class="form-signin" style="padding-top: 100px">
-        <h1 class="h3 mb-3 font-weight-normal">Secret Santa game: {{ game.name }}</h1>
-        <h1 class="h3 mb-3 font-weight-normal">Secret Santa budget: {{ game.budget }}</h1>
-        <h2 class="h3 mb-3 font-weight-normal">Secret code: {{ game.code }}</h2>
+        <p class="h3 mb-3 font-weight-normal">GAME: <br>{{ game.name }}</p>
+        <p class="h3 mb-3 font-weight-normal">BUDGET: <br>{{ game.budget }}</p>
+        <p class="h3 mb-3 font-weight-normal">CODE: <br>{{ game.code }}</p>
         <br>
-        <h2 class="h3 mb-3 font-weight-normal">Secret rules: </h2>
+        <p class="h3 mb-3 font-weight-normal">RULES: </p>
         {% for rule in game.game_rules.all %}
             {{ rule }}
         {% endfor %}
         <br>
-        <h2 class="h3 mb-3 font-weight-normal">Secret players:</h2>
+        <p class="h3 mb-3 font-weight-normal">PLAYERS:</p>
 
         <hr>
         <ol class="list-group">
@@ -33,7 +33,7 @@
 
         <br>
         {% if not user_game.gift_to_player %}
-            <a class="btn btn-lg btn-dark btn-block {% if not game.ready %} disabled{% endif %}" href="{% url 'generate-game' game.id %}" style="color: white">*** HoHoHo ***</a>
+            <p>NOT STARTED</p>
         {% endif %}
         {% if game.user_add == user %}
             {% if not game.ready %}

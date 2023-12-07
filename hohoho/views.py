@@ -115,6 +115,29 @@ class GenerateView(View):
 class StartGameView(View):
     def get(self, request, *args, **kwargs):
         game = SecretSanta.objects.get(pk=self.kwargs['game_pk'])
+        gift_to_players = []
+
+        results = {}
+
+        for user_game in game.user_game.all():
+            rules_player1 = [i.player2.id for i in game.game_rules.filter(player1=user_game)]
+            rules_player2 = [i.player1.id for i in game.game_rules.filter(player2=user_game)]
+
+            not_available_player = set(gift_to_players + rules_player1 + rules_player2 + [user_game.id])
+
+            player = game.user_game.exclude(id__in=not_available_player).order_by('?').first()
+            
+            if not player:
+                raise Exception
+
+            gift_to_players.append(player.id)
+
+            results[user_game] = player
+
+        for k, v in results.items():
+            k.gift_to_player = v
+            k.save()
+
         game.ready = True
         game.save()
         return redirect('game', kwargs['game_pk'])

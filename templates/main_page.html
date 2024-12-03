@@ -1,16 +1,18 @@
 {% extends 'basics/main.html' %}
 {% block content %}
     <div class="form-signin" style="padding-top: 250px">
-        <div id='open-modal' class="btn btn-lg btn-success btn-block">Join SecretSanta game</div>
-        <a class="btn btn-lg btn-warning btn-block" href="{% url 'new-game' %}">Create new SecretSanta game</a>
+        <div id='open-modal' class="btn btn-lg btn-success btn-block">Join</div>
+        <a class="btn btn-lg btn-warning btn-block" href="{% url 'new-game' %}">Create</a>
         <a class="btn btn-lg btn-danger btn-block" href="{% url 'logout' %}">Logout</a>
         <br>
+        {% if user.games.all %}
         <h3>My Secret Santa games</h3>
         <div class="list-group">
             {% for game in user.games.all %}
                 <a class="list-group-item list-group-item-action" href="{% url 'game' game.game.id %}">{{ game.game.name }}</a>
             {% endfor %}
         </div>
+        {% endif %}
     </div>
 
          <!-- Modal -->

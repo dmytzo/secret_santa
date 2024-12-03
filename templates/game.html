@@ -1,14 +1,33 @@
 {% extends 'basics/main.html' %}
 {% block content %}
     <div class="form-signin" style="padding-top: 100px">
-        <p class="h3 mb-3 font-weight-normal">GAME: <br>{{ game.name }}</p>
-        <p class="h3 mb-3 font-weight-normal">BUDGET: <br>{{ game.budget }}</p>
-        <p class="h3 mb-3 font-weight-normal">CODE: <br>{{ game.code }}</p>
-        <br>
-        <p class="h3 mb-3 font-weight-normal">RULES: </p>
-        {% for rule in game.game_rules.all %}
-            {{ rule }}
-        {% endfor %}
+        <p class="h3 mb-3 font-weight-normal">🎅🏻🎄🤫</p>
+        <table class="table">
+            <tbody>
+              <tr>
+                <th scope="row">GAME</th>
+                <td>{{ game.name }}</td>
+              </tr>
+              <tr>
+                <th scope="row">CODE</th>
+                <td>{{ game.code }}</td>
+              </tr>
+              <tr>
+                <th scope="row">BUDGET</th>
+                <td>{{ game.budget }}</td>
+              </tr>
+              <tr>
+                <th scope="row">EXCEPTIONS</th>
+                <td>
+                    {% for rule in game.game_rules.all %}
+                    {{ rule }}
+                    <br>
+                    {% endfor %}
+                </td>
+              </tr>
+            </tbody>
+        </table>
+
         <br>
         <p class="h3 mb-3 font-weight-normal">PLAYERS:</p>
 
@@ -16,9 +35,12 @@
         <ol class="list-group">
             {% for player in game.user_game.all %}
                 <li {% if player == user_game.gift_to_player %}style="background-color: chartreuse"{% endif %} class="list-group-item">
-                    {{ player.name }}
                     {% if player.user == user %}
-                        <a href="{% url 'join-game' game.id %}"> edit </a>{% endif %}
+                        <a href="{% url 'join-game' game.id %}"> {{ player.name }} </a>
+                    {% else %}
+                        {{ player.name }}
+                    {% endif %}
+
                     {% if game.user_add == user %}
                         <br>
                         <a href="{% url 'delete_game' player.id %}">delete</a>
@@ -32,15 +54,12 @@
         </ol>
 
         <br>
-        {% if not user_game.gift_to_player %}
-            <p>NOT STARTED</p>
-        {% endif %}
         {% if game.user_add == user %}
             {% if not game.ready %}
-                <a href="{% url 'start-game' game.id %}" style="color: white" class="btn btn-lg btn-success btn-block">!!START GAME!!!</a>
+                <a href="{% url 'start-game' game.id %}" style="color: white" class="btn btn-lg btn-success btn-block">Start</a>
             {% endif %}
             <a id="open-modal" style="color: white" class="btn btn-lg btn-primary btn-block">Add rule</a>
-            <a class="btn btn-lg btn-danger btn-block" href="{% url 'delete_game' user_game.id %}">Delete game</a>
+            <a class="btn btn-lg btn-danger btn-block" href="{% url 'delete_game' user_game.id %}">Delete</a>
         {% endif %}
         <a class="btn btn-lg btn-warning btn-block" href="{% url 'main' %}">Back</a>
     </div>

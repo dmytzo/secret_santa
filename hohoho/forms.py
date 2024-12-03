@@ -65,7 +65,7 @@ class UserSecretSantaGameForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['name'] = forms.CharField(required=True, label="Your name",
                                               widget=forms.TextInput(attrs={'class': 'form-control'}))
-        self.fields['wish'] = forms.CharField(required=True, label="Your wish",
+        self.fields['wish'] = forms.CharField(required=False, label="Your wish",
                                               widget=forms.Textarea(attrs={'class': 'form-control'}))
 
     class Meta:

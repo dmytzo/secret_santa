@@ -36,4 +36,4 @@ class Rules(models.Model):
                                 null=True)
 
     def __str__(self):
-        return f'Players: {self.player1} and {self.player2} can not be together!'
+        return f'{self.player1} and {self.player2}'
